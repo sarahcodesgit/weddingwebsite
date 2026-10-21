@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Accordion from './components/Accordion'
 import Countdown from './components/Countdown'
 import Monogram from './components/Monogram'
-import RsvpPrototype from './components/RsvpPrototype'
+import RsvpForm from './components/RsvpForm'
 import { faqs, navigation, storyChapters, weddingDetails } from './data/weddingData'
 
 function PlaceholderImage({ label, number, className = '' }) {
@@ -165,7 +165,7 @@ export default function App() {
         </section>
 
         <section className="rsvp-section section-space" id="rsvp" aria-labelledby="rsvp-title">
-          <RsvpPrototype />
+          <RsvpForm />
         </section>
 
         <section className="registry-section section-space" id="registry" aria-labelledby="registry-title">
