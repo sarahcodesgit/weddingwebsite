@@ -1,0 +1,7 @@
+project_id = "sarah-and-jesus-2027"
+
+[functions.rsvp-submit]
+verify_jwt = false
+
+[functions.rsvp-admin]
+verify_jwt = false
