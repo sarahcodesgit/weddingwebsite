@@ -65,6 +65,7 @@ export const faqs = [
   { question: "Are children invited?", answer: "While we love your little ones, we kindly encourage guests to make childcare arrangements so everyone can relax and enjoy the celebration. Due to limited space, we hope to keep our wedding primarily an adults-only occasion. If you need to bring your children, please contact Sarah or Jesus in advance." },
   { question: "Can I bring a plus-one?", answer: "Due to limited space, we can only accommodate guests specifically named on the invitation. Thank you for understanding!" },
   { question: "When should I RSVP?", answer: "Please RSVP by October 27, 2027, one month before our wedding. You can respond directly through this website or contact Sarah or Jesus if you need assistance." },
+  { question: "What if I cannot attend the ceremony?", answer: "We would love for you to join us for our wedding ceremony, but we understand that everyone's schedules are different. If you cannot attend the Mass, we would still be so grateful to celebrate with you at the reception afterward!" },
   { question: "What if I'm traveling from out of town?", answer: "We are so grateful to everyone traveling to celebrate with us! Travel recommendations, airport information, and accommodations will be shared on our website." },
 ]
 
