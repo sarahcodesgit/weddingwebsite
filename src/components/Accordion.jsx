@@ -23,7 +23,7 @@ export default function Accordion({ items }) {
               </button>
             </h3>
             <div className="accordion__panel" id={panelId} hidden={!isOpen}>
-              <p>{item.answer}</p>
+              {item.answer.split('\n\n').map((paragraph, paragraphIndex) => <p key={paragraphIndex}>{paragraph}</p>)}
             </div>
           </article>
         )
