@@ -302,5 +302,5 @@ html.js [data-reveal].is-visible { opacity: 1; transform: none; }
 
 /* Selective heirloom lace: used only on espresso-brown content sections. */
 .intro, .faq-section { position: relative; isolation: isolate; overflow: hidden; }
-.intro::before, .faq-section::before { content: ''; position: absolute; z-index: 0; inset: 0; background-image: url('/images/lace-texture.svg'); background-size: 13rem 13rem; background-position: center; opacity: .075; pointer-events: none; }
+.intro::before, .faq-section::before { content: ''; position: absolute; z-index: 0; inset: 0; background-image: url('/images/brown-lace.jpg'); background-size: 520px auto; background-repeat: repeat; background-position: center top; opacity: 1; pointer-events: none; }
 .intro > *, .faq-section > * { position: relative; z-index: 1; }
