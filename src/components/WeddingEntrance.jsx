@@ -23,7 +23,7 @@ export default function WeddingEntrance({ children }) {
       return
     }
     try { window.sessionStorage.setItem(SESSION_KEY, 'true') } catch { /* Session storage may be unavailable. */ }
-    setUnlocked(true)
+    // Let the envelope play after each fresh password unlock.\n    try { window.sessionStorage.removeItem('sarah-jesus-opening-invitation-seen') } catch { /* Storage may be unavailable. */ }\n    document.documentElement.classList.remove('invitation-seen')\n    setUnlocked(true)
   }
 
   if (unlocked) return children
