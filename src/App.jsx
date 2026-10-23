@@ -135,7 +135,11 @@ export default function App() {
           <div className="story-chapters">
             {storyChapters.map((chapter, index) => (
               <article className={`story-chapter story-chapter--${index + 1}`} data-reveal key={chapter.title}>
-                <PlaceholderImage number={chapter.number} label={chapter.imageLabel} />
+                {chapter.title === 'The Proposal' ? (
+                  <div className="photo-placeholder proposal-photo">
+                    <img src="/images/proposal.jpg" alt="Sarah and Jesus celebrating their engagement at St. Peter's Basilica and sharing their proposal moment" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#ede6d4' }} />
+                  </div>
+                ) : <PlaceholderImage number={chapter.number} label={chapter.imageLabel} />}
                 <div className="story-chapter__words">
                   <span>{chapter.accent}</span>
                   <h3>{chapter.title}</h3>
