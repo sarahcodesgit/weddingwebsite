@@ -15,7 +15,7 @@ function clientIp(request: Request) {
   return request.headers.get('cf-connecting-ip') || 'unavailable-client-ip'
 }
 
-const handler = withSupabase({ auth: 'user' }, async (request, context) => {
+const handler = withSupabase({ auth: 'none' }, async (request, context) => {
   if (request.method !== 'POST') return json(request, { error: 'Method not allowed.' }, 405)
 
   let payload: Record<string, unknown>
@@ -28,13 +28,16 @@ const handler = withSupabase({ auth: 'user' }, async (request, context) => {
   const validation = validateRsvp(payload)
   if (!validation.value) return json(request, { error: validation.error }, 422)
 
-  if (Deno.env.get('RSVP_SMS_VERIFICATION_ENABLED') !== 'true') {
+  // Test bypass is intended ONLY for an isolated development Supabase project.
+  // Never enable RSVP_DEV_OTP_BYPASS in the production Supabase project.
+  const devBypass = Deno.env.get('RSVP_DEV_OTP_BYPASS') === 'true' && /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(request.headers.get('origin') || '')
+  if (!devBypass && Deno.env.get('RSVP_SMS_VERIFICATION_ENABLED') !== 'true') {
     return json(request, { error: 'Online RSVP is not enabled until phone verification has been configured and tested.' }, 503)
   }
 
   const rsvp = validation.value
   const verifiedPhone = normalizePhone(String(context.userClaims?.phone || ''))
-  if (!verifiedPhone || verifiedPhone !== rsvp.phoneNumberNormalized) {
+  if (!devBypass && (!verifiedPhone || verifiedPhone !== rsvp.phoneNumberNormalized)) {
     return json(request, { error: 'Please verify the phone number entered on this RSVP before submitting.' }, 403)
   }
 
