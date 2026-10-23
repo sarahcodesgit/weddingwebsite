@@ -305,3 +305,25 @@ html.js [data-reveal].is-visible { opacity: 1; transform: none; }
 .intro, .faq-section { position: relative; isolation: isolate; overflow: hidden; }
 .intro::before, .faq-section::before { content: ''; position: absolute; z-index: 0; inset: 0; background-image: url('/images/brown-lace.jpg'); background-size: 520px auto; background-repeat: repeat; background-position: center top; opacity: 1; pointer-events: none; }
 .intro > *, .faq-section > * { position: relative; z-index: 1; }
+
+
+/* Real proposal collage: fill the portrait frame without placeholder ornaments. */
+.story-chapter .proposal-photo {
+  padding: 0;
+  min-height: 0;
+  aspect-ratio: 921 / 1602;
+  background: #ede6d4;
+  overflow: hidden;
+}
+.story-chapter .proposal-photo::before,
+.story-chapter .proposal-photo::after { content: none; display: none; }
+.story-chapter .proposal-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 700px) {
+  .story-chapter .proposal-photo { max-width: 24rem; min-height: 0; }
+}
