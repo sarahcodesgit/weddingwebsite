@@ -130,7 +130,7 @@ export default function App() {
           <div className="section-heading" data-reveal>
             <SectionMark>A few pages in</SectionMark>
             <h2 id="story-title">Our Love Story</h2>
-            <p>Some stories are best told slowly. These pages are waiting for Sarah and Jesus’s own words and photographs.</p>
+            <p>From an unexpected beginning to a forever kind of love, here are a few chapters of our story.</p>
           </div>
           <div className="story-chapters">
             {storyChapters.map((chapter, index) => (
