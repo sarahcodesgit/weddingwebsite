@@ -120,7 +120,7 @@ export default function App() {
                   <div><dt>Reception</dt><dd>Schedule to be announced</dd></div>
                 </dl>
               </div>
-              <PlaceholderImage number="II" label="Reception venue" />
+              <div className="event-card__art"><img src="/images/ashtongardens.webp" alt="Stone chapel surrounded by greenery at Ashton Gardens" loading="lazy" /></div>
             </article>
           </div>
           <p className="details-note" data-reveal>All reception information, including venue, address, photograph, cocktail hour, and evening schedule, will be shared here once finalized.</p>
