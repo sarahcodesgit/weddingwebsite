@@ -36,7 +36,13 @@ const handler = withSupabase({ auth: 'none' }, async (request, context) => {
   }
 
   const rsvp = validation.value
-  const verifiedPhone = normalizePhone(String(context.userClaims?.phone || ''))
+  let verifiedPhone = ''
+  if (!devBypass) {
+    const token = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '')
+    const { data: authData, error: authError } = await context.supabaseAdmin.auth.getUser(token)
+    if (authError || !authData.user) return json(request, { error: 'Please verify your phone number before submitting.' }, 403)
+    verifiedPhone = normalizePhone(String(authData.user.phone || ''))
+  }
   if (!devBypass && (!verifiedPhone || verifiedPhone !== rsvp.phoneNumberNormalized)) {
     return json(request, { error: 'Please verify the phone number entered on this RSVP before submitting.' }, 403)
   }
