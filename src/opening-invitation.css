@@ -1,70 +1,105 @@
-/* Vintage stationery entrance. The homepage remains rendered beneath this overlay. */
+/* Photographic envelope with independently animated embroidered flap. */
 .opening-invitation.vintage-intro {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: none;
-  padding: 0;
-  margin: 0;
-  min-height: 100svh;
-  background: #ede6d4;
-  overflow: hidden;
-  opacity: 1;
+  position: fixed; inset: 0; z-index: 1000; display: none;
+  min-height: 100svh; overflow: hidden; background: #ede6d4; opacity: 1;
 }
 html.js:not(.invitation-seen) .opening-invitation.vintage-intro { display: block; }
 .vintage-intro__artwork {
-  display: block;
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  margin: 0;
-  border: 0;
-  background: #ede6d4;
-  cursor: pointer;
-  overflow: hidden;
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  padding: 0; border: 0; margin: 0; cursor: pointer;
+  background: #ede6d4; overflow: hidden;
 }
-.vintage-intro__artwork img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center center;
-  transition: transform 1.15s cubic-bezier(.22,.75,.25,1), filter 1.15s ease;
+.vintage-intro__scene {
+  position: absolute; inset: 0; display: block;
+  perspective: 1100px; transform-style: preserve-3d;
+}
+.vintage-intro__base, .vintage-intro__flap {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  max-width: none; display: block; object-fit: cover; object-position: center;
+}
+.vintage-intro__flap {
+  z-index: 3; transform-origin: 50% 17.8%;
+  backface-visibility: visible;
+  transform: rotateX(0deg);
+  transition: transform 1.05s cubic-bezier(.18,.7,.22,1), filter 1.05s ease;
+  filter: drop-shadow(0 3px 2px rgba(45,35,19,.18));
 }
 .vintage-intro__artwork:focus-visible { outline: 3px solid #4b4d39; outline-offset: -8px; }
 .vintage-intro__skip {
-  position: absolute;
-  z-index: 2;
-  left: 50%;
-  bottom: max(2rem, env(safe-area-inset-bottom));
+  position: absolute; z-index: 5; left: 50%;
+  bottom: max(1.6rem, env(safe-area-inset-bottom));
   transform: translateX(-50%);
-  border: 0;
-  border-bottom: 1px solid currentColor;
-  background: rgb(237 230 212 / .85);
-  color: #402116;
-  padding: .35rem .5rem;
-  font-size: .65rem;
-  letter-spacing: .14em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  cursor: pointer;
+  border: 0; border-bottom: 1px solid currentColor;
+  background: rgb(237 230 212 / .9); color: #402116;
+  padding: .4rem .55rem; font-size: .65rem;
+  letter-spacing: .14em; text-transform: uppercase;
+  white-space: nowrap; cursor: pointer;
 }
 .vintage-intro__skip:focus-visible { outline: 2px solid #4b4d39; outline-offset: 3px; }
-.opening-invitation.vintage-intro.is-opening { animation: vintage-reveal 1.2s ease forwards; pointer-events: none; }
-.vintage-intro.is-opening .vintage-intro__artwork img { transform: scale(1.055); filter: brightness(1.07); }
+.vintage-intro.is-opening .vintage-intro__flap {
+  transform: rotateX(168deg);
+  filter: drop-shadow(0 12px 9px rgba(45,35,19,.2));
+}
+.vintage-intro.is-opening .vintage-intro__scene {
+  animation: vintage-camera 2.6s ease forwards;
+}
+.opening-invitation.vintage-intro.is-opening {
+  pointer-events: none;
+  animation: vintage-overlay-out 2.6s ease forwards;
+}
 .vintage-intro.is-opening .vintage-intro__skip { opacity: 0; }
-@keyframes vintage-reveal {
-  0%, 22% { opacity: 1; }
+@keyframes vintage-camera {
+  0%, 48% { transform: scale(1); }
+  100% { transform: scale(1.12); }
+}
+@keyframes vintage-overlay-out {
+  0%, 76% { opacity: 1; }
   100% { opacity: 0; }
 }
-@media (max-width: 600px) {
-  .vintage-intro__artwork img { object-fit: cover; }
-  .vintage-intro__skip { bottom: max(1.25rem, env(safe-area-inset-bottom)); font-size: .6rem; }
+@media (prefers-reduced-motion: reduce) {
+  .vintage-intro__flap { transition: none; }
+  .vintage-intro.is-opening .vintage-intro__scene,
+  .opening-invitation.vintage-intro.is-opening { animation: none; opacity: 0; }
+}
+
+/* Ivory paper rises out of the envelope, then the real page behind the
+   full-screen overlay is revealed. No duplicate homepage or small card. */
+.vintage-intro__paper {
+  position: absolute; z-index: 2;
+  left: 20%; width: 60%; top: 31%; height: 50%;
+  display: block;
+  background:
+    linear-gradient(130deg, rgba(255,255,255,.6), transparent 55%),
+    repeating-linear-gradient(92deg, rgba(90,75,48,.025) 0 1px, transparent 1px 5px),
+    #f4f0e7;
+  border: 1px solid rgba(100,85,57,.23);
+  box-shadow: 0 -12px 28px rgba(47,40,25,.12), 0 12px 25px rgba(47,40,25,.12);
+  transform: translateY(38%) scale(.84);
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.vintage-intro__paper-edge {
+  position: absolute; inset: 12px;
+  border: 1px solid rgba(101,94,65,.20);
+  pointer-events: none;
+}
+.vintage-intro.is-opening .vintage-intro__paper {
+  animation: vintage-paper-emerge 2.6s cubic-bezier(.2,.7,.22,1) forwards;
+}
+.vintage-intro__hint {
+  position: absolute; z-index: 5; bottom: max(4rem, calc(env(safe-area-inset-bottom) + 2.5rem));
+  left: 50%; transform: translateX(-50%);
+  font-size: .65rem; letter-spacing: .18em; color: #402116;
+  pointer-events: none;
+}
+.vintage-intro.is-opening .vintage-intro__hint { opacity: 0; }
+@keyframes vintage-paper-emerge {
+  0%, 18% { opacity: 0; transform: translateY(38%) scale(.84); }
+  28% { opacity: 1; }
+  58% { opacity: 1; transform: translateY(-45%) scale(.96); }
+  76% { opacity: 1; transform: translateY(-53%) scale(1.18); }
+  100% { opacity: 1; transform: translateY(-53%) scale(3.5); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .opening-invitation.vintage-intro.is-opening { animation: none; opacity: 0; }
-  .vintage-intro__artwork img { transition: none; }
+  .vintage-intro.is-opening .vintage-intro__paper { animation: none; }
 }
