@@ -113,12 +113,15 @@ export default function RsvpForm() {
       return
     }
 
+    const guestToken = window.sessionStorage.getItem('sarah-jesus-wedding-guest-token')
+    if (!guestToken) { setError('Please enter through the wedding password page again.'); return }
     setIsSubmitting(true)
     const { data, error: functionError } = await supabase.functions.invoke('rsvp-submit', {
       body: {
         ...responseDetails,
         website: honeypot,
         formStartedAt,
+        guestToken,
       },
     })
     setIsSubmitting(false)
