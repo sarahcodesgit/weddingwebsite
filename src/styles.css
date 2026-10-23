@@ -152,6 +152,7 @@ img { display: block; max-width: 100%; }
 .accordion__trigger { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.2rem 0; border: 0; color: var(--ivory); background: transparent; font-family: var(--serif); font-size: clamp(1.15rem, 1.8vw, 1.45rem); text-align: left; }
 .accordion__symbol { font-family: var(--sans); font-size: 1.3rem; font-weight: 300; }
 .accordion__panel p { max-width: 34rem; margin: 0; padding: 0 2.5rem 1.25rem 0; color: rgb(237 230 212 / .78); font-size: .83rem; line-height: 1.65; }
+.accordion__panel p + p { margin-top: .85rem; }
 .travel-card { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; max-width: 82rem; margin: clamp(4rem, 9vw, 8rem) auto 0; padding: clamp(2rem, 4vw, 3.5rem); border: 1px solid rgb(237 230 212 / .4); }
 .travel-card .eyebrow { color: var(--taupe); }
 .travel-card h3 { margin: .7rem 0 0; font-family: var(--serif); font-size: clamp(1.9rem, 3vw, 3rem); line-height: .9; font-weight: 500; }
