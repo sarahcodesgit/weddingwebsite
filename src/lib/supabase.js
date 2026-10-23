@@ -17,5 +17,5 @@ export const supabase = isSupabaseConfigured
     })
   : null
 
-export const demoRsvpMessage = 'Demo mode is active. This RSVP stays only in your current browser session and is not sent or stored.'
+export const demoRsvpMessage = 'Demo mode only. This RSVP section is currently under development. If you would like to RSVP already, please contact Jesus or Sarah.'
 export const supabaseSetupMessage = 'Online RSVP is not connected yet. Please check back soon.'
