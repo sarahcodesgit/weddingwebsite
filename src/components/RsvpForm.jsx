@@ -36,10 +36,6 @@ export default function RsvpForm() {
   const [dietaryNotes, setDietaryNotes] = useState('')
   const [honeypot, setHoneypot] = useState('')
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now())
-  const [otpCode, setOtpCode] = useState('')
-  const [otpSent, setOtpSent] = useState(false)
-  const [phoneVerified, setPhoneVerified] = useState(false)
-  const [otpMessage, setOtpMessage] = useState('')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
   const [confirmation, setConfirmation] = useState(null)
@@ -72,10 +68,6 @@ export default function RsvpForm() {
 
   function updatePhoneNumber(value) {
     setPhoneNumber(value)
-    setOtpCode('')
-    setOtpSent(false)
-    setPhoneVerified(false)
-    setOtpMessage('')
   }
 
   function addGuest() {
@@ -96,53 +88,6 @@ export default function RsvpForm() {
     if (!attendance) return 'Please choose whether you will attend.'
     if (isAttending && additionalGuests.some((guest) => !looksLikeFullName(guest.fullName))) return 'Please enter the full name of each household member or remove the empty field.'
     return ''
-  }
-
-  async function hasMatchingPhoneSession() {
-    const { data, error: userError } = await supabase.auth.getUser()
-    if (userError || !data.user?.phone) return false
-    return normalizePhone(data.user.phone) === normalizePhone(phoneNumber)
-  }
-
-  async function establishPhoneVerification() {
-    const existingSessionMatches = await hasMatchingPhoneSession()
-    if (existingSessionMatches) {
-      setPhoneVerified(true)
-      return true
-    }
-
-    if (!otpSent) {
-      const { error: otpError } = await supabase.auth.signInWithOtp({
-        phone: phoneNumber.trim(),
-        options: { shouldCreateUser: true },
-      })
-      if (otpError) {
-        setError(otpError.message)
-        return false
-      }
-      setOtpSent(true)
-      setOtpMessage('A verification code was sent to this phone number. Enter it below to send the RSVP.')
-      return false
-    }
-
-    if (!otpCode.trim()) {
-      setError('Enter the verification code sent to your phone.')
-      return false
-    }
-
-    const { data, error: verificationError } = await supabase.auth.verifyOtp({
-      phone: phoneNumber.trim(),
-      token: otpCode.trim(),
-      type: 'sms',
-    })
-    if (verificationError || !data.user?.phone || normalizePhone(data.user.phone) !== normalizePhone(phoneNumber)) {
-      setError(verificationError?.message || 'We could not verify this phone number. Please request a new code and try again.')
-      return false
-    }
-
-    setPhoneVerified(true)
-    setOtpMessage('Phone number verified.')
-    return true
   }
 
   async function submitRsvp(event) {
@@ -169,12 +114,6 @@ export default function RsvpForm() {
     }
 
     setIsSubmitting(true)
-    const verified = phoneVerified || await establishPhoneVerification()
-    if (!verified) {
-      setIsSubmitting(false)
-      return
-    }
-
     const { data, error: functionError } = await supabase.functions.invoke('rsvp-submit', {
       body: {
         ...responseDetails,
@@ -200,15 +139,11 @@ export default function RsvpForm() {
     setDietaryNotes('')
     setHoneypot('')
     setFormStartedAt(Date.now())
-    setOtpCode('')
-    setOtpSent(false)
-    setPhoneVerified(false)
-    setOtpMessage('')
     setError('')
     setConfirmation(null)
   }
 
-  const submitLabel = isSubmitting ? 'Sending RSVP…' : isLiveRsvpEnabled ? phoneVerified ? 'Send RSVP' : otpSent ? 'Verify & send RSVP' : 'Continue securely' : 'Preview your RSVP'
+  const submitLabel = isSubmitting ? 'Sending RSVP…' : isLiveRsvpEnabled ? 'Send RSVP' : 'Preview your RSVP'
 
   if (confirmationSummary) {
     const accepts = confirmationSummary.attendance === 'accept'
@@ -258,7 +193,7 @@ export default function RsvpForm() {
         <label htmlFor="primary-guest-name">Primary guest’s full name</label>
         <input id="primary-guest-name" name="primaryGuestName" value={primaryGuestName} onChange={(event) => setPrimaryGuestName(event.target.value)} placeholder="First and last name" autoComplete="name" required />
         <label htmlFor="primary-guest-phone">Phone number</label>
-        <input id="primary-guest-phone" name="phoneNumber" type="tel" value={phoneNumber} onChange={(event) => updatePhoneNumber(event.target.value)} placeholder="(555) 555-5555" autoComplete="tel" required />
+        <input id="primary-guest-phone" name="phoneNumber" type="tel" value={phoneNumber} onChange={(event) => updatePhoneNumber(event.target.value)} placeholder="+1 555 555 5555, +55 11 99999 9999, or +52 ..." autoComplete="tel" required />
 
         <fieldset className="attendance-options">
           <legend>Will you attend?</legend>
@@ -293,8 +228,6 @@ export default function RsvpForm() {
           </div>
         )}
 
-        {isLiveRsvpEnabled && otpSent && !phoneVerified && <label className="rsvp-field" htmlFor="rsvp-otp">Verification code <span>(sent to your phone)</span><input id="rsvp-otp" value={otpCode} onChange={(event) => setOtpCode(event.target.value)} inputMode="numeric" autoComplete="one-time-code" placeholder="Enter the SMS code" required /></label>}
-        {isLiveRsvpEnabled && otpMessage && <p className="rsvp-card__notice rsvp-card__notice--setup" role="status">{otpMessage}</p>}
         <div className="honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} tabIndex="-1" autoComplete="off" /></div>
         <button className="button button--ivory" type="submit" disabled={isSubmitting}>{submitLabel}</button>
       </form>
