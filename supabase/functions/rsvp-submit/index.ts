@@ -1,7 +1,7 @@
 // @ts-nocheck -- Supabase Edge Functions are type-checked by the Deno runtime, not this Vite workspace.
 import { withSupabase } from 'npm:@supabase/server@1'
 import { isAllowedOrigin, json, optionsResponse, originDenied } from '../_shared/http.ts'
-import { normalizePhone, validateRsvp } from '../_shared/validation.ts'
+import { validateRsvp } from '../_shared/validation.ts'
 
 async function sha256(value: string) {
   const bytes = new TextEncoder().encode(value)
@@ -15,7 +15,7 @@ function clientIp(request: Request) {
   return request.headers.get('cf-connecting-ip') || 'unavailable-client-ip'
 }
 
-const handler = withSupabase({ auth: 'user' }, async (request, context) => {
+const handler = withSupabase({ auth: 'none' }, async (request, context) => {
   if (request.method !== 'POST') return json(request, { error: 'Method not allowed.' }, 405)
 
   let payload: Record<string, unknown>
@@ -28,15 +28,9 @@ const handler = withSupabase({ auth: 'user' }, async (request, context) => {
   const validation = validateRsvp(payload)
   if (!validation.value) return json(request, { error: validation.error }, 422)
 
-  if (Deno.env.get('RSVP_SMS_VERIFICATION_ENABLED') !== 'true') {
-    return json(request, { error: 'Online RSVP is not enabled until phone verification has been configured and tested.' }, 503)
-  }
-
+  // Phone numbers are contact details only; no SMS ownership verification is required.
+  // Rate limits, honeypot and server-side validation remain mandatory.
   const rsvp = validation.value
-  const verifiedPhone = normalizePhone(String(context.userClaims?.phone || ''))
-  if (!verifiedPhone || verifiedPhone !== rsvp.phoneNumberNormalized) {
-    return json(request, { error: 'Please verify the phone number entered on this RSVP before submitting.' }, 403)
-  }
 
   const rateLimitSalt = Deno.env.get('RSVP_RATE_LIMIT_SALT')
   if (!rateLimitSalt) return json(request, { error: 'RSVP is not configured yet.' }, 503)
