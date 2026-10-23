@@ -1,13 +1,11 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
 
-// Preview-only gate. Replace with server-side verification before publishing.
-// Client-side passwords cannot protect website files or private information.
-const PREVIEW_PASSWORD = 'SJGARCIA2027'
-const SESSION_KEY = 'sarah-jesus-wedding-preview-unlocked'
+const SESSION_KEY = 'sarah-jesus-wedding-guest-token'
 
 function wasUnlocked() {
   if (typeof window === 'undefined') return false
-  try { return window.sessionStorage.getItem(SESSION_KEY) === 'true' } catch { return false }
+  try { return Boolean(window.sessionStorage.getItem(SESSION_KEY)) } catch { return false }
 }
 
 export default function WeddingEntrance({ children }) {
@@ -15,20 +13,44 @@ export default function WeddingEntrance({ children }) {
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [showPassword, setShowPassword] = useState(false)
+  const [checking, setChecking] = useState(wasUnlocked)
+  const [submitting, setSubmitting] = useState(false)
 
-  function enter(event) {
+  useEffect(() => {
+    let active = true
+    const token = sessionStorage.getItem(SESSION_KEY)
+    if (!token || !supabase) { setChecking(false); setUnlocked(false); return }
+    supabase.functions.invoke('wedding-access', { body: { action: 'check', token } }).then(({ data, error }) => {
+      if (!active) return
+      if (error || !data?.valid) { sessionStorage.removeItem(SESSION_KEY); setUnlocked(false) }
+      setChecking(false)
+    })
+    return () => { active = false }
+  }, [])
+
+  async function enter(event) {
     event.preventDefault()
-    if (password.trim() !== PREVIEW_PASSWORD) {
-      setError('That password does not match. Please try again.')
+    if (!supabase) { setError('Wedding access is temporarily unavailable.'); return }
+    setSubmitting(true)
+    setError('')
+    const { data, error: requestError } = await supabase.functions.invoke('wedding-access', {
+      body: { action: 'unlock', password },
+    })
+    setSubmitting(false)
+    if (requestError || !data?.token) {
+      let message = data?.error || 'Unable to verify password. Please try again.'
+      try { message = (await requestError.context.json()).error || message } catch { /* Network error */ }
+      setError(message)
       return
     }
-    try { window.sessionStorage.setItem(SESSION_KEY, 'true') } catch { /* Session storage may be unavailable. */ }
-    // Let the envelope play after each fresh password unlock.
-    try { window.sessionStorage.removeItem('sarah-jesus-opening-invitation-seen') } catch { /* Storage may be unavailable. */ }
+    try { window.sessionStorage.setItem(SESSION_KEY, data.token) } catch { /* Session storage may be unavailable. */ }
+    setPassword('')
+    try { window.sessionStorage.removeItem('sarah-jesus-opening-invitation-seen') } catch { /* ignore */ }
     document.documentElement.classList.remove('invitation-seen')
     setUnlocked(true)
   }
 
+  if (checking) return <main className="wedding-gate"><p role="status">Checking wedding access…</p></main>
   if (unlocked) return children
 
   return (
@@ -53,7 +75,7 @@ export default function WeddingEntrance({ children }) {
               aria-label={showPassword ? 'Hide password' : 'Show password'}>{showPassword ? 'Hide' : 'Show'}</button>
           </div>
           {error && <p className="wedding-gate__error" id="wedding-gate-error" role="alert">{error}</p>}
-          <button className="wedding-gate__enter" type="submit">Enter Our Wedding <span aria-hidden="true">↗</span></button>
+          <button className="wedding-gate__enter" type="submit" disabled={submitting}>{submitting ? "Checking…" : "Enter Our Wedding" } <span aria-hidden="true">↗</span></button>
         </form>
         <p className="wedding-gate__footer">With love, Sarah &amp; Jesus</p>
       </section>
