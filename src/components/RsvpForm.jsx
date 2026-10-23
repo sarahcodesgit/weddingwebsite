@@ -226,7 +226,7 @@ export default function RsvpForm() {
           <dl className="rsvp-review">
             <div><dt>Primary guest</dt><dd>{confirmationSummary.primaryGuestName}</dd></div>
             <div><dt>Phone</dt><dd>{confirmationSummary.phoneNumber}</dd></div>
-            <div><dt>Response</dt><dd>{accepts ? 'Joyfully Accepts' : 'Regretfully Declines'}</dd></div>
+            <div><dt>Response</dt><dd>{accepts ? 'Joyfully Accepts' : 'Respectfully Declines'}</dd></div>
             {accepts && <div><dt>Total attending</dt><dd>{confirmationSummary.totalAttending}</dd></div>}
             {accepts && confirmationSummary.additionalGuests.length > 0 && <div><dt>Household members</dt><dd>{confirmationSummary.additionalGuests.join(', ')}</dd></div>}
             {accepts && confirmationSummary.dietaryNotes && <div><dt>Requests</dt><dd>{confirmationSummary.dietaryNotes}</dd></div>}
@@ -268,7 +268,7 @@ export default function RsvpForm() {
           </label>
           <label className={`attendance-option ${attendance === 'decline' ? 'is-selected' : ''}`}>
             <input type="radio" name="attendance" value="decline" checked={attendance === 'decline'} onChange={() => chooseAttendance('decline')} required />
-            <span><strong>Regretfully Declines</strong><small>We will miss you and send our love.</small></span>
+            <span><strong>Respectfully Declines</strong><small>We will miss you and send our love.</small></span>
           </label>
         </fieldset>
 
