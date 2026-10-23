@@ -135,7 +135,11 @@ export default function App() {
           <div className="story-chapters">
             {storyChapters.map((chapter, index) => (
               <article className={`story-chapter story-chapter--${index + 1}`} data-reveal key={chapter.title}>
-                {chapter.title === 'The Proposal' ? (
+                {chapter.title === 'Our Journey Together' ? (
+                  <div className="photo-placeholder proposal-photo">
+                    <img src="/images/IMG_4567.jpg" alt="Sarah and Jesus posing with a guitarist during their travels in Brazil" loading="lazy" />
+                  </div>
+                ) : chapter.title === 'The Proposal' ? (
                   <div className="photo-placeholder proposal-photo">
                     <img src="/images/proposal.jpg" alt="Sarah and Jesus celebrating their engagement at St. Peter's Basilica and sharing their proposal moment" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#ede6d4' }} />
                   </div>
