@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react'
 import { demoRsvpMessage, isLiveRsvpEnabled, supabase } from '../lib/supabase'
 
 const MAX_TOTAL_GUESTS = 8
+// Only available in the local Vite development server, never in a production build.
+const devOtpBypass = import.meta.env.DEV && import.meta.env.VITE_RSVP_DEV_BYPASS === 'true'
 
 const createGuest = () => ({
   id: `${Date.now()}-${Math.random().toString(36).slice(2)}`,
@@ -169,7 +171,7 @@ export default function RsvpForm() {
     }
 
     setIsSubmitting(true)
-    const verified = phoneVerified || await establishPhoneVerification()
+    const verified = devOtpBypass || phoneVerified || await establishPhoneVerification()
     if (!verified) {
       setIsSubmitting(false)
       return
@@ -208,7 +210,7 @@ export default function RsvpForm() {
     setConfirmation(null)
   }
 
-  const submitLabel = isSubmitting ? 'Sending RSVP…' : isLiveRsvpEnabled ? phoneVerified ? 'Send RSVP' : otpSent ? 'Verify & send RSVP' : 'Continue securely' : 'Preview your RSVP'
+  const submitLabel = isSubmitting ? 'Sending RSVP…' : devOtpBypass && isLiveRsvpEnabled ? 'Send test RSVP' : isLiveRsvpEnabled ? phoneVerified ? 'Send RSVP' : otpSent ? 'Verify & send RSVP' : 'Continue securely' : 'Preview your RSVP'
 
   if (confirmationSummary) {
     const accepts = confirmationSummary.attendance === 'accept'
@@ -293,7 +295,8 @@ export default function RsvpForm() {
           </div>
         )}
 
-        {isLiveRsvpEnabled && otpSent && !phoneVerified && <label className="rsvp-field" htmlFor="rsvp-otp">Verification code <span>(sent to your phone)</span><input id="rsvp-otp" value={otpCode} onChange={(event) => setOtpCode(event.target.value)} inputMode="numeric" autoComplete="one-time-code" placeholder="Enter the SMS code" required /></label>}
+        {devOtpBypass && isLiveRsvpEnabled && <p className="rsvp-card__notice rsvp-card__notice--setup" role="status">Local testing only: SMS verification is bypassed. Do not use real guest details.</p>}
+        {isLiveRsvpEnabled && !devOtpBypass && otpSent && !phoneVerified && <label className="rsvp-field" htmlFor="rsvp-otp">Verification code <span>(sent to your phone)</span><input id="rsvp-otp" value={otpCode} onChange={(event) => setOtpCode(event.target.value)} inputMode="numeric" autoComplete="one-time-code" placeholder="Enter the SMS code" required /></label>}
         {isLiveRsvpEnabled && otpMessage && <p className="rsvp-card__notice rsvp-card__notice--setup" role="status">{otpMessage}</p>}
         <div className="honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" value={honeypot} onChange={(event) => setHoneypot(event.target.value)} tabIndex="-1" autoComplete="off" /></div>
         <button className="button button--ivory" type="submit" disabled={isSubmitting}>{submitLabel}</button>
