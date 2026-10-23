@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.rsvp-admin]
 verify_jwt = false
+
+[functions.wedding-access]
+verify_jwt = false
