@@ -175,9 +175,8 @@ export default function App() {
             <div className="registry-section__motif" aria-hidden="true">❦</div>
             <SectionMark>With gratitude</SectionMark>
             <h2 id="registry-title">Your presence is<br /><em>our greatest gift.</em></h2>
-            <p>Your presence at our wedding is the greatest gift we could ask for. For those who have expressed an interest, we have created a registry.</p>
-            <a className="button button--olive" href={weddingDetails.registryUrl} target="_blank" rel="noreferrer">View Our Registry <Arrow /></a>
-            <small>Registry link is a placeholder and will be updated before the invitation is sent.</small>
+            <p>Your presence at our wedding is the greatest gift we could ask for. For those who have expressed an interest, we have created a Honeymoon Fund page.</p>
+            <a className="button button--olive" href={weddingDetails.registryUrl} target="_blank" rel="noreferrer">Our Honeymoon Fund <Arrow /></a>
           </div>
         </section>
       </main>
