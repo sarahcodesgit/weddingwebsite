@@ -161,8 +161,8 @@ export default function App() {
             <div data-reveal><Accordion items={faqs} /></div>
           </div>
           <aside className="travel-card" data-reveal>
-            <div><span className="eyebrow">Traveling to Houston?</span><h3>We are glad you are coming.</h3></div>
-            <div><p>Airport information, accommodations, and a few favorite Houston recommendations will be shared here for our out-of-town guests.</p><span className="travel-card__pending">Travel notes coming soon</span></div>
+            <div><span className="eyebrow">A note for our guests</span><h3>We hope to see you!</h3></div>
+            <div><p>RSVP below or by contacting Jesus and Sarah.</p><a className="travel-card__pending" href="#rsvp">RSVP below ↓</a></div>
           </aside>
         </section>
 
