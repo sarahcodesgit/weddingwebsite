@@ -56,16 +56,16 @@ export const storyChapters = [
 ]
 
 export const faqs = [
-  { question: 'What is the dress code?', answer: 'Answer pending. We look forward to sharing guidance closer to the celebration.' },
-  { question: 'Where is the wedding ceremony?', answer: 'The ceremony will be held at The Church of the Annunciation in Downtown Houston.' },
-  { question: 'Where is the reception?', answer: 'Reception details are coming soon.' },
-  { question: 'What time should guests arrive?', answer: 'Arrival time will be confirmed closer to the wedding day.' },
-  { question: 'Where should we stay?', answer: 'Hotel recommendations are coming soon.' },
-  { question: 'Is parking available?', answer: 'Parking details are coming soon.' },
-  { question: 'Are children invited?', answer: 'To be confirmed.' },
-  { question: 'Can I bring a plus-one?', answer: 'Only guests specifically included in an invitation may attend.' },
-  { question: 'When should I RSVP?', answer: 'The RSVP deadline will be announced.' },
-  { question: 'Traveling to Houston?', answer: 'Airport information, accommodations, and local recommendations for out-of-town guests are coming soon.' },
+  { question: "What is the dress code?", answer: "We would love for our guests to dress in formal attire for our celebration." },
+  { question: "Where will the ceremony take place?", answer: "Our Catholic wedding ceremony will take place at The Church of the Annunciation in Downtown Houston, Texas." },
+  { question: "Where will the reception be held?", answer: "Our reception venue will be announced soon. We can't wait to celebrate with you!" },
+  { question: "What time should we arrive?", answer: "Our ceremony is tentatively planned for 12:00 PM. Please check back for confirmed timing and arrival details." },
+  { question: "Where should out-of-town guests stay?", answer: "We recommend staying in the Spring or North Houston area. Some nearby options include Hampton Inn & Suites North Houston Spring, Holiday Inn Express & Suites Spring–Woodlands Area, and SureStay by Best Western Spring North Houston. We also have limited space available to host family and friends in our homes. Please contact Sarah or Jesus directly if you would like to discuss accommodations. Hotel recommendations are based on the Ashton Gardens North Houston area; reception location is not yet confirmed." },
+  { question: "Will parking be available?", answer: "Complimentary parking is available in the church parking garage for guests attending parish events. Downtown Houston can be busy during Astros games and other events, so please allow extra time for parking and arrival. Guests attending an Astros game afterward may need to pay the parking attendant. Reception parking details will be shared once confirmed." },
+  { question: "Are children invited?", answer: "While we love your little ones, we kindly encourage guests to make childcare arrangements so everyone can relax and enjoy the celebration. Due to limited space, we hope to keep our wedding primarily an adults-only occasion. If you need to bring your children, please contact Sarah or Jesus in advance." },
+  { question: "Can I bring a plus-one?", answer: "Due to limited space, we can only accommodate guests specifically named on the invitation. Thank you for understanding!" },
+  { question: "When should I RSVP?", answer: "Please RSVP by October 27, 2027, one month before our wedding. You can respond directly through this website or contact Sarah or Jesus if you need assistance." },
+  { question: "What if I'm traveling from out of town?", answer: "We are so grateful to everyone traveling to celebrate with us! Travel recommendations, airport information, and accommodations will be shared on our website." },
 ]
 
 // Localization architecture: add all visitor-facing copy to both objects before enabling a language switcher.
