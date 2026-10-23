@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Accordion from './components/Accordion'
 import Countdown from './components/Countdown'
 import Monogram from './components/Monogram'
+import OpeningInvitation from './components/OpeningInvitation'
 import RsvpForm from './components/RsvpForm'
 import { faqs, navigation, storyChapters, weddingDetails } from './data/weddingData'
 
@@ -40,8 +41,10 @@ export default function App() {
   const closeMenu = () => setMenuOpen(false)
 
   return (
-    <div className="site-shell">
-      <a className="skip-link" href="#main">Skip to content</a>
+    <>
+      <OpeningInvitation />
+      <div className="site-shell">
+        <a className="skip-link" href="#main">Skip to content</a>
       <header className="site-header">
         <a className="site-header__brand" href="#home" onClick={closeMenu} aria-label="Sarah and Jesus, home"><Monogram compact /></a>
         <nav className={`site-nav ${menuOpen ? 'is-open' : ''}`} id="main-navigation" aria-label="Primary navigation">
@@ -54,7 +57,7 @@ export default function App() {
         </button>
       </header>
 
-      <main id="main">
+      <main id="main" tabIndex="-1">
         <section className="hero" id="home" aria-labelledby="hero-title">
           <div className="hero__photo-wrap" data-reveal>
             <div className="hero__frame hero__frame--outer" aria-hidden="true" />
@@ -124,7 +127,6 @@ export default function App() {
         </section>
 
         <section className="story-section section-space" id="our-story" aria-labelledby="story-title">
-          <div className="story-section__ornament" aria-hidden="true">✿</div>
           <div className="section-heading" data-reveal>
             <SectionMark>A few pages in</SectionMark>
             <h2 id="story-title">Our Love Story</h2>
@@ -180,13 +182,14 @@ export default function App() {
         </section>
       </main>
 
-      <footer className="site-footer">
+        <footer className="site-footer">
         <div className="site-footer__line" />
         <Monogram inverse />
         <p>Sarah &amp; Jesus</p>
         <span>November 27, 2027 · Houston, Texas</span>
         <a href="#home">Back to top ↑</a>
-      </footer>
-    </div>
+        </footer>
+      </div>
+    </>
   )
 }

@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="olivePaper" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#72745A"/><stop offset="1" stop-color="#414330"/>
+    </linearGradient>
+    <pattern id="engravedBotanical" width="120" height="120" patternUnits="userSpaceOnUse">
+      <g fill="none" stroke="#EDE6D4" stroke-linecap="round" stroke-linejoin="round" opacity=".46">
+        <path d="M16 118c23-31 38-58 34-100M50 74c13-12 26-17 42-18M46 92c14 2 26 9 35 21" stroke-width="1.3"/>
+        <ellipse cx="59" cy="46" rx="4" ry="13" transform="rotate(42 59 46)" fill="#EDE6D4" opacity=".55"/>
+        <ellipse cx="35" cy="82" rx="4" ry="13" transform="rotate(-28 35 82)" fill="#EDE6D4" opacity=".55"/>
+        <path d="M85 14c9 7 16 15 20 27M95 24c10-1 18 2 25 9" stroke-width="1"/>
+        <circle cx="88" cy="65" r="7" stroke-width="1"/><circle cx="88" cy="65" r="2" fill="#EDE6D4"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="900" height="520" fill="url(#olivePaper)"/>
+  <rect width="900" height="520" fill="url(#engravedBotanical)"/>
+  <path d="M28 42c137 7 251 42 422 216C621 84 735 49 872 42" fill="none" stroke="#EDE6D4" stroke-opacity=".44" stroke-width="1.5"/>
+  <path d="M30 62c126 7 236 43 420 202C634 105 744 69 870 62" fill="none" stroke="#EDE6D4" stroke-opacity=".24" stroke-width="1"/>
+  <g fill="#EDE6D4" opacity=".52"><circle cx="450" cy="255" r="10"/><circle cx="450" cy="255" r="3"/></g>
+</svg>
