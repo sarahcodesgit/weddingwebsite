@@ -25,6 +25,14 @@ The primary content file is `src/data/weddingData.js`. Update the date, ceremony
 
 The temporary hero image is configured in `weddingDetails.hero.image`. To replace it with engagement photography, add a new optimized image under `public/images/`, update `src`, `alt`, and credit information in `src/data/weddingData.js`, then remove or revise `public/images/ATTRIBUTION.md` as appropriate. The hero and ceremony layouts will not need to change.
 
+## Visual system and opening invitation
+
+The public site and private admin dashboard use the same refined palette: dark olive `#4B4D39`, cream `#EDE6D4`, espresso `#402116`, and muted taupe `#A6998A`. Shared public styles live in `src/styles.css`; dashboard styles live in `src/admin.css`.
+
+`public/images/lace-texture.svg` is a lightweight transparent floral-lace pattern. It is intentionally applied only behind the espresso introduction and FAQ sections at 7.5% opacity. Keep it behind content and do not expand it across every section without checking contrast.
+
+`src/components/OpeningInvitation.jsx` renders the optional first-visit vintage envelope. It uses layered React, CSS, and local SVG artwork: an engraved ivory envelope with an ornamental S&amp;J wax seal, a softly scalloped flap, and a botanical lining. The envelope is the sole opening control; its understated “Click to open” cue is informational. Clicking it lifts the flap, briefly reveals the lining, and fades the complete overlay directly into the already-rendered homepage in approximately 1.25 seconds—no separate invitation card or miniature page appears. “Skip to the website” bypasses it immediately. A `sessionStorage` flag suppresses the opening after either action for the remainder of that browser session. The overlay is enabled only after JavaScript loads, so the prerendered homepage remains directly accessible to crawlers and no-script visitors. Reduced-motion visitors receive an immediate transition, and no audio is used.
+
 ## RSVP status: interactive demo mode
 
 The public RSVP section now collects a primary guest’s full name and phone number, attendance response, optional household-member/additional-guest names, and optional dietary or special-request notes. It calculates the total attending and supports an in-session “Update this demo RSVP” return path.
@@ -101,6 +109,8 @@ No deployment is performed by this workflow. When the public site is ready for a
 ## Project files
 
 - `src/App.jsx` — public invitation composition and interaction shell.
+- `src/components/OpeningInvitation.jsx` — session-only, motion-safe first-visit envelope.
+- `src/opening-invitation.css` — isolated card-free vintage envelope, layered SVG, and responsive 1.25-second opening-to-homepage transition styles.
 - `src/components/RsvpForm.jsx` — guest-friendly RSVP form with safe demo mode.
 - `src/components/AdminDashboard.jsx` and `src/admin.jsx` — separate private admin interface.
 - `src/lib/supabase.js` — browser-safe Supabase client configuration and demo/live guard.
@@ -108,4 +118,6 @@ No deployment is performed by this workflow. When the public site is ready for a
 - `docs/SUPABASE-SOURCES.md` — official security sources used for the integration design.
 - `src/data/weddingData.js` — edit-friendly wedding content and configuration.
 - `src/styles.css` and `src/admin.css` — responsive public and private visual systems.
+- `public/images/lace-texture.svg` — subtle local floral-lace overlay for selected espresso sections.
+- `public/images/opening-envelope-lining.svg` — local engraved botanical lining revealed briefly as the first-visit envelope opens.
 - `public/` — static image, attribution record, route manifest, robots, sitemap, and favicon.
