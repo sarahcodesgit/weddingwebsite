@@ -2,6 +2,7 @@
 import { withSupabase } from 'npm:@supabase/server@1'
 import { isAllowedOrigin, json, optionsResponse, originDenied } from '../_shared/http.ts'
 import { validateRsvp } from '../_shared/validation.ts'
+import { verifyGuestToken } from '../_shared/guest-auth.ts'
 
 async function sha256(value: string) {
   const bytes = new TextEncoder().encode(value)
@@ -24,6 +25,8 @@ const handler = withSupabase({ auth: 'none' }, async (request, context) => {
   } catch {
     return json(request, { error: 'Invalid RSVP request.' }, 400)
   }
+
+  if (!await verifyGuestToken(payload.guestToken)) return json(request, { error: 'Wedding access expired. Please enter the wedding password again.' }, 401)
 
   const validation = validateRsvp(payload)
   if (!validation.value) return json(request, { error: validation.error }, 422)
