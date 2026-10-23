@@ -19,7 +19,7 @@ export const weddingDetails = {
       credit: '“Annunciation Church Houston Texas” — Ed Uthman, CC BY 3.0, via Wikimedia Commons. Resized.',
     },
   },
-  registryUrl: 'https://www.gofundme.com/f/sarah-and-jesuss-honeymoon-fund?attribution_id=sl:204890fd-eb2f-489f-b8a9-bcf5eb6e533a',
+  registryUrl: 'https://www.gofundme.com/f/sarah-and-jesuss-honeymoon-fund',
 }
 
 export const navigation = [
