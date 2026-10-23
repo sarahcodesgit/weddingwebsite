@@ -120,7 +120,7 @@ export default function App() {
                   <div><dt>Reception</dt><dd>Schedule to be announced</dd></div>
                 </dl>
               </div>
-              <PlaceholderImage number="II" label="Reception venue" />
+              <div className="event-card__art"><img src="/images/ashtongardens.webp" alt="Stone chapel surrounded by greenery at Ashton Gardens" loading="lazy" /></div>
             </article>
           </div>
           <p className="details-note" data-reveal>All reception information, including venue, address, photograph, cocktail hour, and evening schedule, will be shared here once finalized.</p>
@@ -135,7 +135,15 @@ export default function App() {
           <div className="story-chapters">
             {storyChapters.map((chapter, index) => (
               <article className={`story-chapter story-chapter--${index + 1}`} data-reveal key={chapter.title}>
-                <PlaceholderImage number={chapter.number} label={chapter.imageLabel} />
+                {chapter.title === 'Our Journey Together' ? (
+                  <div className="photo-placeholder proposal-photo">
+                    <img src="/images/IMG_4567.jpg" alt="Sarah and Jesus posing with a guitarist during their travels in Brazil" loading="lazy" />
+                  </div>
+                ) : chapter.title === 'The Proposal' ? (
+                  <div className="photo-placeholder proposal-photo">
+                    <img src="/images/proposal.jpg" alt="Sarah and Jesus celebrating their engagement at St. Peter's Basilica and sharing their proposal moment" loading="lazy" style={{ width: '100%', height: '100%', objectFit: 'contain', background: '#ede6d4' }} />
+                  </div>
+                ) : <PlaceholderImage number={chapter.number} label={chapter.imageLabel} />}
                 <div className="story-chapter__words">
                   <span>{chapter.accent}</span>
                   <h3>{chapter.title}</h3>
