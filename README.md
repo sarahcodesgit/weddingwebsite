@@ -31,7 +31,7 @@ The public site and private admin dashboard use the same refined palette: dark o
 
 `public/images/lace-texture.svg` is a lightweight transparent floral-lace pattern. It is intentionally applied only behind the espresso introduction and FAQ sections at 7.5% opacity. Keep it behind content and do not expand it across every section without checking contrast.
 
-`src/components/OpeningInvitation.jsx` renders the optional first-visit envelope. It uses only React and CSS: “Open Our Invitation” unfolds the flap and reveals the existing homepage in approximately 1.85 seconds; “Skip to the website” bypasses it immediately. A `sessionStorage` flag suppresses the envelope after either action for the remainder of that browser session. The envelope is enabled only after JavaScript loads, so the prerendered homepage remains directly accessible to crawlers and no-script visitors. Reduced-motion visitors receive an immediate transition, and no audio is used.
+`src/components/OpeningInvitation.jsx` renders the optional first-visit antique stationery suite. It uses layered React, CSS, and local SVG artwork: an engraved ivory envelope with an ornamental oval S&amp;J monogram, scalloped flap, botanical lining, and an ornate botanical-framed invitation card. Clicking the envelope or the understated “Click to open” instruction unfolds the flap, slides the card upward, holds the design, and transitions to the existing homepage in approximately 3.65 seconds; “Skip to the website” bypasses it immediately. A `sessionStorage` flag suppresses the opening after either action for the remainder of that browser session. The overlay is enabled only after JavaScript loads, so the prerendered homepage remains directly accessible to crawlers and no-script visitors. Reduced-motion visitors receive an immediate transition, and no audio is used.
 
 ## RSVP status: interactive demo mode
 
@@ -110,6 +110,7 @@ No deployment is performed by this workflow. When the public site is ready for a
 
 - `src/App.jsx` — public invitation composition and interaction shell.
 - `src/components/OpeningInvitation.jsx` — session-only, motion-safe first-visit envelope.
+- `src/opening-invitation.css` — isolated antique stationery, layered SVG, and responsive opening animation styles.
 - `src/components/RsvpForm.jsx` — guest-friendly RSVP form with safe demo mode.
 - `src/components/AdminDashboard.jsx` and `src/admin.jsx` — separate private admin interface.
 - `src/lib/supabase.js` — browser-safe Supabase client configuration and demo/live guard.
@@ -118,4 +119,5 @@ No deployment is performed by this workflow. When the public site is ready for a
 - `src/data/weddingData.js` — edit-friendly wedding content and configuration.
 - `src/styles.css` and `src/admin.css` — responsive public and private visual systems.
 - `public/images/lace-texture.svg` — subtle local floral-lace overlay for selected espresso sections.
+- `public/images/opening-botanical-frame.svg` and `public/images/opening-envelope-lining.svg` — local engraved artwork for the first-visit stationery suite.
 - `public/` — static image, attribution record, route manifest, robots, sitemap, and favicon.
